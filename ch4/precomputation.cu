@@ -76,8 +76,8 @@ __global__ void gradient_kernel(float *dImg1, float *dImg2,	int iHeight, int iWi
 						//Compute the gradients within the whole image, with 1-pixel   on each boundary
 	if (y >= 1 && y<iImgHeight - 1 && x >= 1 && x<iImgWidth - 1 &&
 		tx != 0 && tx != BLOCK_SIZE_X - 1 && ty != 0 && ty != BLOCK_SIZE_Y - 1) {
-		//大图像中第一纵向横向的方格区舍弃，不放在DR，DT里面
-		//方格区大小变为15*15，存入DR，DT中，此时仅有一行一列重复
+		//大图像中边界舍弃，不放在DR，DT里面
+		//方格区边界也舍弃，方格区大小变为15*15，存入DR，DT中，此时仅有一行一列重复，梯度计算则无重复
 		dR[(y - 1)*iWidth + x - 1] = imgR_sh[ty][tx]; 
 		//15*15方格区也符合梯度的计算
 		dRx[(y - 1)*iWidth + x - 1] = 0.5f * (imgR_sh[ty][tx + 1] - imgR_sh[ty][tx - 1]);
@@ -240,6 +240,7 @@ __global__ void precompute_Bicubic_kernel(const float* dIn_fImgT, const float* d
 
 	if (y < iHeight - 1 && x < iWidth - 1 && ty != BLOCK_SIZE_Y - 1 && tx != BLOCK_SIZE_X - 1) {
 		// ty != BLOCK_SIZE_Y - 1 && tx != BLOCK_SIZE_X - 1,均为0-14，方格区中公用一个边界像素
+		//y < iHeight - 1 && x < iWidth - 1 仅能算到边界里面一层
 		//Load the 16 parameters from the global memory
 		fTaoT[0] = sh_T[ty][tx];
 		fTaoT[1] = sh_T[ty][tx + 1];
