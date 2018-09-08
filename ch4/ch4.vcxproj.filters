@@ -39,6 +39,9 @@
     <ClInclude Include="precomputation.cuh">
       <Filter>CUDA</Filter>
     </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="compute.cu">
@@ -48,6 +51,9 @@
       <Filter>CUDA</Filter>
     </CudaCompile>
     <CudaCompile Include="precomputation.cu">
+      <Filter>CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="FFT_cc.cu">
       <Filter>CUDA</Filter>
     </CudaCompile>
   </ItemGroup>
